@@ -1,0 +1,2 @@
+데이터베이스 연결
+  DriverManager.getConnection(ConnectionConst.URL, ConnectionConst.USERNAME, ConnectionConst.PASSWORD);
