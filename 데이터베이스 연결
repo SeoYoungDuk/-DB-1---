@@ -1,2 +1,15 @@
 데이터베이스 연결
-  DriverManager.getConnection(ConnectionConst.URL, ConnectionConst.USERNAME, ConnectionConst.PASSWORD);
+public Connections getConnection() {
+  return DriverManager.getConnection(ConnectionConst.URL, ConnectionConst.USERNAME, ConnectionConst.PASSWORD);
+}
+
+
+jdbc 커넥션 인터페이스 구현
+java.sql.Connection 
+
+h2DBconnection implements Connection
+mySqlconnection implements Connection
+
+1. 애플리케이션 로직에서 커넥션 필요하면 DriverManager.getConnection() 을 호출
+2. DriverManager는 라이브러리에 등록된, 드라이버 목록을 자동으로 인식 순서대로 드라이버들에게 커넥션을 획득 할수 있는지 확인
+3. 이렇게 찾은 커넥션 구현체가 클라이언트에 반환
