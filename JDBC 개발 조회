@@ -9,7 +9,11 @@
     Strign sql = "select * from member where meber_di = ?";
     Connection con = null;
     PreparedStatement pstmt = null'
-    ResultSet rs = null;
+    ResultSet rs = null; 
+    // 쿼리 내용을 있는 객체
+    // 내부에는 커서가 있음
+    // rs.next()로 다음 커서를 가르킴
+    // 최초의 커서는 데이터가 없기 때문에 최초로 한번 rs.next()호출 해야함.
     
     try {
       con = getConnection;
