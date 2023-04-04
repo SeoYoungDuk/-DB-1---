@@ -1,0 +1,36 @@
+  JDBC 개발 - 수정, 삭제 
+  
+  public void update(String memberId, int money) {
+    String sql = "update member set money=? where member_id=?";
+    Connection con = null;
+    Prestatement pstmt = null;
+    
+    try {
+      con = getConnection;
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, money);
+      pstmt.exceuteUpdate();
+    } catch(SqlException e) {
+      log.errer(e);
+      throw e;
+    } finally {
+      con.close();
+    }
+  }
+  
+  public void delete(String memberId) {
+    String sql = "delete member where member_id=?";
+    Connection con = null;
+    Prestatement pstmt = null;
+    
+    try {
+      con = getConnection;
+      pstmt = con.prepareStatement(sql);
+      pstmt.exceuteUpdate();
+    } catch(SqlException e) {
+      log.errer(e);
+      throw e;
+    } finally {
+      con.close();
+    }
+  }
