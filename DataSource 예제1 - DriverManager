@@ -1,0 +1,15 @@
+  
+
+  DriverManagerDatasource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+  useDataSource(dataSource);
+  
+  dataSource.getConnection();
+  
+  DriverManager.getConnection(URL, USERNAME, PASSWORD):
+  
+  DriverManager 와  DriverManagerDatasource 의 차이점
+  사용 할 때 다름
+  
+  DriverManagerDatasource 설정과 사용이 분리 되어있다.
+  설정을 한곳에서 해야지 유연하게 변경 대처 가능.
+  DriverManager은 설정에 종속되어있다.
