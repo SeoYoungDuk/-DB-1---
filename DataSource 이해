@@ -1,0 +1,16 @@
+애플리케이션 로직 
+에서 driverManager를 통해 커넥션 획득하던지 커넥션을 획득하던지 둘중에 하나임
+
+그런데 driverManager를 사용하다가 커넥션풀로 바꾸면.
+애플리케이션 코드도 변경 해야한다(의존관계가 변경되니깐)
+
+커넥션을 획득하는 방법을 추상화
+
+자바에서는 이런 방법을 해결하기위해 javax.sql.DataSource라는 인터페이스를 제공한다.
+
+public interfaace Datasource{
+  Connection getConnection() throws SQLException;
+}
+
+DriverManager는 DataSource를 사용하지 않음.
+스프링은 DriverManagerDataSource라는 DataSource를 구현한 클래스를 제공한다.
