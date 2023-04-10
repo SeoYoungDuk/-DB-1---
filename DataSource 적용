@@ -1,0 +1,25 @@
+JDBC - DataSource 사용, JdbcUtils 사용
+
+private Connection getConnection() thorows SQLException {
+  Connection con = datasource.getConnection();
+  
+}
+
+private void close(Connection con, Statement stmt, Resultset rs) {
+  JdbcUtils.close(rs);
+  JdbcUtils.close(stmt);
+  JdbcUtils.close(con);
+}
+// con0 만 이용.
+//사용 하고 바로 반환 하기때문에
+
+void beforeEach(){
+ //DataManagerDataSource dataSource = new DriverManagerDataSource();
+ //커넥션 풀링
+ Hirkari dataSource = new HikariDataSource();
+ dataSource.setJdbcUrl(URL);
+ dataSource.setuUsername(USERNAME);
+ dataSource.SetPassword(PASSWORD);
+ dataSource.
+ 
+} 
