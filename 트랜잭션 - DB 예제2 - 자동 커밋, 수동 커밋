@@ -1,0 +1,12 @@
+ 자동 커밋 모드
+ set autocommit true;
+ insert into member(member_id, money) values ('data1', 10000)
+ 
+ 수동 커밋
+ set autocommit false; // 수동커밋모드를 설정하는 것을 트랜잭션을 시작한다고 한다.
+ insert into member(member_id, money) values ('data1', 10000)
+ commit
+ 
+ 
+
+ 
