@@ -1,0 +1,21 @@
+set autocommit true;
+delete member
+insert into member values(
+
+set autocommit false;
+update
+update //실패
+
+문제 상황 커밋
+
+set autocommit true;
+delete member
+insert into member values(
+
+set autocommit false;
+update //계좌 이체 성공
+update // 계좌 이체 실행하던 도중에 memeber B 돈 20000원 증가시키는것에 실패한다.
+commit -> 계좌 이체 성공만 적용됨.
+
+중간에 문제가 발생하면 commit 시키지말고, rollback 시켜야함
+이런 작업 할때는 반드시 수동커밋 모드로 해야함.
