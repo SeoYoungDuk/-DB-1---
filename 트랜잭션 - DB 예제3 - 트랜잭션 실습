@@ -1,0 +1,15 @@
+set autocommit true;
+delete from member;
+insert into member(member_id, money) values ( , 10000);
+-> 조회 결과 없음
+
+set autocommit false;
+insert into member(member_id, money) values ( newId1, 10000);
+insert into member(member_id, money) values ( newId2, 10000);
+-> 신규 회원 추가, 세션 1번에서는 보임, 세션 2에는 안보임 (커밋을 안했기 때문에)
+
+commit;
+-> 세션 2에서도 보임
+
+rollback
+-> 세션 1,세션2 에서 안보임
