@@ -1,0 +1,15 @@
+세션 1
+set autocommit false;
+update member
+
+세션 2
+SET LOCK_TIMEOUT 60000;
+set autocommit false;
+update member -> 대기
+
+세션 1
+commit -> 락 반납
+
+세션 2
+락 획득
+commit -> 변경 사항 반영
