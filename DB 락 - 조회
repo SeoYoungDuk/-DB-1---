@@ -1,0 +1,19 @@
+일반적인 조회는 락을 사용하지 않는다.
+
+데이터베이스는 다르지만 보통 데이터를 조회 할때는 락을 획득하지 않고 바로 데이터를 조회 할 수 있다.
+조회가 아니라 변경을 하려면 락이 돌아올때까지 기다려야함.
+
+데이터 조회 할때도 락을 획득 하고 싶을 때는,
+select for update 구문을 사용하면 된다.
+
+조회 시점에 락이 필요한 경우
+트랜색션 종료 시점 까지 다른곳에서 변경하지 못하게 막아야 할때.
+조회 시점에 락을 획득하면 됨.
+
+세션 1
+set autocommit false;
+select * member where where member_id = 'memberA' for update;
+
+세션2
+set autocommit false;
+update meber set money 500 where member_id = 'memberA';
