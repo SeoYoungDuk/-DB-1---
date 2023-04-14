@@ -49,26 +49,26 @@ class MemberServiceV1Test {
     Member findMemberB = memberRepsitory.findById(memberA.getMemberId());
     
     assertThat(findMemberA.getMoney).isEqualTo(8000);
-    assertThat(findMemberA.getMoney).isEqualTo(12000);
+    assertThat(findMemberB.getMoney).isEqualTo(12000);
   }
   
   이체중 예외 발생
   @Test
   void test2() {
     Member memberA = new Member(Member_A, 10000);
-    Member memberB = new Member(Member_B, 10000);
+    Member memberB = new Member(Member_EX, 10000);
     memberRepository.save(memberA);
-    memberRepository.save(memberB);
+    memberRepository.save(memberEX);
     
     asserthThatThrownBy(() -> {
-      memberService.accountTransfer(memberA.getMemberId(), memberB.getMemberId(), 2000);
+      memberService.accountTransfer(memberA.getMemberId(), memberEX.getMemberId(), 2000);
     }).isInstanceOf(IllegalStateException.class);
     
     
     Member findMemberA = memberRepsitory.findById(memberA.getMemberId());
-    Member findMemberB = memberRepsitory.findById(memberA.getMemberId());
+    Member findMemberEX = memberRepsitory.findById(memberA.getMemberId());
     
     assertThat(findMemberA.getMoney).isEqualTo(8000); //autocommit 모드라, 하나씩 커밋 해서 처음 것만 DB에 적용
-    assertThat(findMemberA.getMoney).isEqualTo(10000);
+    assertThat(findMemberEX.getMoney).isEqualTo(10000);
   }
 }
