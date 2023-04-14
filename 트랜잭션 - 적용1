@@ -1,0 +1,74 @@
+계좌이체 비즈니스 로직
+
+@RequiredArgsConstructor
+public class MemberServiceV1 {
+  private final MemberRepositoryV1 memberRepository;
+  
+  public void accountTransfer(String fromId, String toId, int money) throws SQLException {
+    Memeber fromMemeber = memberRepository.findById(fromId);
+    Member tomember = memberRepository.findById(toId);
+    
+    memberRepository.update(fromId, fromMember.getMoney() - money);
+    validation(toMember);
+    memberRepository.update(toId, fromMember.getMoney() + money);
+  }
+}
+
+class MemberServiceV1Test {
+  public static final String MEMBER_A = "memberA";
+  public static final String MEMBER_B = "memberB";
+  public static final String MEMBER_EX = "memberEX";
+  
+  private MemberRepository memberRepository;
+  private MemberServiceV1 memberService;
+  
+  @BeforeEach
+  void before() {
+    DriverManagerDataSource dataSource = new DriverMamngerDataSource(URL, USERNAME, PASSWORD);
+    memberReporitory = new MemberRepositoryV1(dataSource);
+    memberSerivce = new MemberServiceV1(memberRepository);
+  }
+  
+  @AfterEach
+  void after() {
+    memberReporitory.delete(MEMBER_A);
+    memberReporitory.delete(MEMBER_B);
+    memberReporitory.delete(MEMBER_EX);
+  }
+  
+  @Test
+  void test() {
+    Member memberA = new Member(Member_A, 10000);
+    Member memberB = new Member(Member_B, 10000);
+    memberRepository.save(memberA);
+    memberRepository.save(memberB);
+    
+    memberService.accountTransfer(memberA.getMemberId(), memberB.getMemberId(), 2000);
+    
+    Member findMemberA = memberRepsitory.findById(memberA.getMemberId());
+    Member findMemberB = memberRepsitory.findById(memberA.getMemberId());
+    
+    assertThat(findMemberA.getMoney).isEqualTo(8000);
+    assertThat(findMemberA.getMoney).isEqualTo(12000);
+  }
+  
+  이체중 예외 발생
+  @Test
+  void test2() {
+    Member memberA = new Member(Member_A, 10000);
+    Member memberB = new Member(Member_B, 10000);
+    memberRepository.save(memberA);
+    memberRepository.save(memberB);
+    
+    asserthThatThrownBy(() -> {
+      memberService.accountTransfer(memberA.getMemberId(), memberB.getMemberId(), 2000);
+    }).isInstanceOf(IllegalStateException.class);
+    
+    
+    Member findMemberA = memberRepsitory.findById(memberA.getMemberId());
+    Member findMemberB = memberRepsitory.findById(memberA.getMemberId());
+    
+    assertThat(findMemberA.getMoney).isEqualTo(8000); //autocommit 모드라, 하나씩 커밋 해서 처음 것만 DB에 적용
+    assertThat(findMemberA.getMoney).isEqualTo(10000);
+  }
+}
