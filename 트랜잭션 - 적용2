@@ -1,0 +1,46 @@
+트랜잭션 어떤 계층에 걸어야할까?
+비즈니스 로직이 있는 계층에서 걸어야 함.
+왜 ? 문제가 생기면 비즈니스에 있는 부분에 전체 다 롤백해야하기 때문에.
+
+서비스계층에서 커넥션 생성, 종료 해야함
+트랜잭션 사용하는 동안 똑같은 커넥션 이어야함. 다른 커넥션이면 다른 세션이 동작함.
+
+애플리케이션에서 같은 커넥션을 유지하려면?
+파라미터로 커넥션을 전달
+public Member findById(Connection con, String memberId) throws SQLException {
+  String sql = "";
+  try {
+    넘어온 Connection 사용해아함
+    //con = getConnection() 
+  } catch(Exception e) {
+  } finally {
+    //connection은 여기서 닫지 않는다.
+    
+    JdbcUtils.close();
+  }
+  
+}
+
+//트랜잭선 - 파라미터 연동 풀을 고려한 종료
+private final DataSource dataSource;
+public serviceCode() {
+  Connection con = dataSource.getConnection();
+  try {
+    con.setAutoCommit(false);//트랜잭션 시작
+    //비즈니스로직
+    bizLogic(con, fromId, toId, money);
+    con.commit();// 성공시 커밋
+  } catch (Exception e) {
+    con.rollback(); // 실패 시 롤백
+    throw new IllegalStateException(e);
+  } finally {
+    if(con != null) {
+      try {
+        con.setAutoCommit(true)//풀에 수동 커밋 모드로 들어가기 때문에 반드시 해야함.
+        con.close(); 
+      } catch(Exception e) {
+        log.info("error message={}", "wersr", e);
+      }
+    }
+  }
+}
