@@ -6,19 +6,36 @@
 트랜잭션 사용하는 동안 똑같은 커넥션 이어야함. 다른 커넥션이면 다른 세션이 동작함.
 
 애플리케이션에서 같은 커넥션을 유지하려면?
-파라미터로 커넥션을 전달
-public Member findById(Connection con, String memberId) throws SQLException {
-  String sql = "";
-  try {
-    넘어온 Connection 사용해아함
-    //con = getConnection() 
-  } catch(Exception e) {
-  } finally {
-    //connection은 여기서 닫지 않는다.
-    
-    JdbcUtils.close();
+1. 파라미터로 커넥션을 전달
+ 주의할점 커넥션 파라미터로 넘어온 커넥션 사용해야 하고, 종료는 트랜잭션에서 해야함
+ Repostiory class {
+  public Member findById(Connection con, String memberId) throws SQLException {
+    String sql = "";
+    try {
+      넘어온 Connection 사용해아함
+      //con = getConnection() 새로운 커넥션 씀 ..
+    } catch(Exception e) {
+    } finally {
+      //connection은 여기서 닫지 않는다.
+      JdbcUtils.closeResultSet(resultSet);
+      JdbcUtils.closeStatement(pstmt);
+    }
+
   }
-  
+
+  public void update(Connection con, String memberId) throws SQLException {
+    String sql = "";
+    try {
+      넘어온 Connection 사용해아함
+      //con = getConnection() 
+    } catch(Exception e) {
+    } finally {
+      //connection은 여기서 닫지 않는다.
+      JdbcUtils.closeResultSet(resultSet);
+      JdbcUtils.closeStatement(pstmt);
+    }
+
+  }
 }
 
 //트랜잭선 - 파라미터 연동 풀을 고려한 종료
@@ -34,7 +51,11 @@ public serviceCode() {
     con.rollback(); // 실패 시 롤백
     throw new IllegalStateException(e);
   } finally {
-    if(con != null) {
+    release(con);
+  }
+}
+private void release(Connection con) {
+  if(con != null) {
       try {
         con.setAutoCommit(true)//풀에 수동 커밋 모드로 들어가기 때문에 반드시 해야함.
         con.close(); 
@@ -42,5 +63,4 @@ public serviceCode() {
         log.info("error message={}", "wersr", e);
       }
     }
-  }
 }
