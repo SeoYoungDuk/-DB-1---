@@ -51,3 +51,5 @@ public void accountTransfer(String fromId, String toId, int money) {
 예외 누수
 jdbc sql exception은 다른 계층 까지 전파됨.
 
+해당 문제들을 스프링에서 해결함
+
