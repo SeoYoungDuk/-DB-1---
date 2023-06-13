@@ -28,6 +28,7 @@ public void accountTransfer(String fromId, String toId, int money) {
 }
 jdbc 에 의존함 
 
+트랙잭션, 예외 누수 문제 있음
 public void accountTransfer(String fromId, String toId, int money) {
   Connection con = dataSource.getConnetion();
   try {
@@ -40,3 +41,13 @@ public void accountTransfer(String fromId, String toId, int money) {
     releaseCon();
   }
 }
+트랜잭션 적용하기 위해 jdbc 구현 기술이 서비스 계층에 누수됨
+서비스 계층은 순수해야하고, 변화에 대응 가능해야해서 데이터 접근 계층에 jdbc 코드를 다 몰아두는것이다.
+그러나 트랜잭션 적용하면서 jdbc 누수가 발생했다.
+
+트랜잭션 동기화 문제
+같은 트랜잭션을 유지하기위해 커넥션을 전달해야하는 문제가 있다.
+
+예외 누수
+jdbc sql exception은 다른 계층 까지 전파됨.
+
