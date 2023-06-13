@@ -1,0 +1,42 @@
+애플리케이션 구조
+3가지 계층
+presentation - 비즈니스로직 - 데이터 접근 계층
+
+presentation 계층
+- UI와 관련된 처리 담당
+- 웹요청 응답
+- 사용자 요청 검증
+- 서블릿 http, 스프링 mvc
+서비스 계층
+- 비즈니스 로직을 담당
+- 주 사용 기술 : 가급적 특정기술 의존하지 않고, 순수 자바 코드 작성 
+데이터 접근 계층
+- 실제 데이터 베이스에 접근하는 코드
+- 주 사용 기술 : JDBC, JPA, File, Redis, Mongo ...
+
+순수한 서비스 계층
+- 가장 중요한곳이 핵심비즈니스 로직이 있는 서비스 계층이고, 웹계층과 데이터 접근 계층이 변경 되더라도, 비즈니스로직은 최대한 변경없이 유지되어야 함
+변경해야 하는것과 변경하지 않아야하는것을 구분
+
+문제점들
+- 기존의 member serivce 코드를 보면
+private final MemberRepository memberRepository;
+
+public void accountTransfer(String fromId, String toId, int money) {
+  memberRepository.save();
+  memverRepository.update();
+}
+jdbc 에 의존함 
+
+public void accountTransfer(String fromId, String toId, int money) {
+  Connection con = dataSource.getConnetion();
+  try {
+    memberRepository.save();
+    memverRepository.update();
+  } catch (Exception e) {
+    con.rollback();
+    throw new IllegalStateException(e)'
+  } finally {
+    releaseCon();
+  }
+}
