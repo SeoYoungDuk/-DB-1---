@@ -1,0 +1,30 @@
+트랜잭션 사용하는 로직 보면, 패턴이 반복된다.
+
+템플릿 콜백 패턴을 사용하면 해결됨.
+
+class MemberService {
+  private final PlatformTransactionManager txTemplate;
+  private final MemeberRepositoryV3 memeberRepository;
+  
+  public MemeberService (PlatfromTransactionManager transactionManager, MemeberRepositoryV3 memeberRepository) {
+    txTemplate = new TransactionManager(transactionManager);
+    this.memberRepository = memeberRespository
+  }
+  
+  public void accountTransfer(String fromId, String toId, int money) {
+      txTemplate.executeWithoutResult((status) -> {
+        try{
+          bizLogic(fromId, toId, money);
+        }
+        catch(SqlException e) {
+          throw new IllegalStateException(e;
+        }
+      })
+  }
+}
+
+트랜잭션 시작하고, 커밋 롤백 하는 코드 제거됨.
+기본동작은 
+비즈니스 로직이 정상 수행되면 커밋한다.
+언체크 예외가 발생하면 롤백한다.
+람다에서 체크예외 던질수 없기 때문에 언체크 예외로 바꾸도록 예외를 전환했다.
