@@ -1,1 +1,20 @@
 
+class MemberService {
+  private final PlatformTransactionManager txTemplate;
+  private final MemeberRepositoryV3 memeberRepository;
+  
+  public MemeberService (PlatfromTransactionManager transactionManager, MemeberRepositoryV3 memeberRepository) {
+    txTemplate = new TransactionManager(transactionManager);
+    this.memberRepository = memeberRespository
+  }
+  
+  @Transactional
+  public void accountTransfer(String fromId, String toId, int money) {
+      bizLogic(fromId, toId, money);
+  }
+}
+
+AOP는 스프링 컨테이너 있어야 동작함.
+DataSource, TranssactionManager TestConfig에 등록
+
+MemeberService.getClass() 는 프록시 임.
