@@ -1,0 +1,26 @@
+순수한 비즈니스 로직만 남긴다는 목표는 달성 못함.
+
+프록시 사용하면 트랜잭션 처리하는 객체와 비즈니스 로직을 처리하는 서비스 객체를 분리할수 있음.
+
+public TransactionProxy {
+  private MemberService target;
+  
+  public void logic() {
+    TransactionStatus status = transactionManager.getTransaction();
+    try {
+      target.logic();
+      transactionManager.commit(status);
+    } catch (Exception e) {
+      transactionManager.rollback();
+      throw new IllegalArgumentsException(e);
+    }
+  }
+}
+
+스프링이 제공하는 트랜잭션 AOP기능을 사용하면 프록시를 적용 가능.
+그러나 스프링은 @Transactional 을 제공함.
+
+어드바이저
+포인트컷
+어드바이스
+
