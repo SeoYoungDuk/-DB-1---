@@ -1,1 +1,12 @@
 
+스프링에 부트
+
+데이터 소스 - 자동등록
+스프링부트가 기본으로 생성하는 데이터 소스는 기본 커넥션풀을 제공하는 HikariDataSource
+spring.datasource.url 속성이 없으면 내장 데이터베이스를 생성하려고 시도한다.
+
+트랜잭션 매니저 - 자동등록
+jdbc 를 사용하려면 DataSourceTransactionManager를 빈으로 등록하고,
+jpa 를 사용하려면 JpaTransactionManager를 빈으로 등록한다.
+
+
