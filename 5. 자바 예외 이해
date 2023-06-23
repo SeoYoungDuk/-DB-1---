@@ -1,0 +1,7 @@
+실무에서 필요한 체크예외와 언체크 예외의 차이
+
+기본기 부터
+
+예외 계층
+Object -> Throwable -> Exception 체크 예외 -> Runtime Exception 언체크 예외
+                    -> Error 메모리 부족이나, 시스템의 심각한 오류(예외를 잡으로고 하면 안됨) 언체크 예외임
