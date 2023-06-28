@@ -7,7 +7,7 @@ CheckedTest {
       }
   }
   //Checked 예외는 처리하거나 넘겨야한다.
-  static calss Service {
+  static class Service {
     Repository repository = new Repository();
     //예외를 잡아서 처리하는 코드
     public void callCatch() {
