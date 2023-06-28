@@ -1,0 +1,35 @@
+
+CheckedTest {
+  //Exception은 상속받은 
+  static class MyCheckedException extends Exception {
+      public MyCheckedException(String message) {
+        super(message);
+      }
+  }
+  //Checked 예외는 처리하거나 넘겨야한다.
+  static calss Service {
+    Repository repository = new Repository();
+    //예외를 잡아서 처리하는 코드
+    public void callCatch() {
+      try {
+        repostiory.call();
+      } catch (MyCheckedExcetion e) {
+        log.info("예외 처리, message = {}", e.getMesseage());
+      }
+    }
+  // 예외를 밖으로 던지는코드 체크예외는 예외를 잡지않고 밖으로 던지려면 thorws 예외를 필수적으로 달아야한다.
+  public void callThrow() throws MyCheckedExcetipn{
+      try {
+        repostiory.call();
+      } catch (MyCheckedExcetion e) {
+        log.info("예외 처리, message = {}", e.getMesseage());
+      }
+    }
+
+  }
+  static class Respository {
+   public void call() throws MyCheckedException{
+    throw new MyCheckedException("ex");
+   }  
+  }
+}
