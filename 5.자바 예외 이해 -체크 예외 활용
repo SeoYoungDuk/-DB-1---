@@ -1,0 +1,35 @@
+체크 예외 활용
+
+2가지 원칙
+- 언체크 예외 사용 하자(기본적으로)
+- 체크 예외는 비즈니스 로직상 의도적으로 던지는 예외 에만 사용하자.
+ ex) 계좌 이체 실패 예외, 결제 시 포인트 부족 예외, 로그인 ID,PW 불일치 예외
+
+체크 예외의 문제점
+데이터 베이스 나 네트워크 처럼 시스템에서 발생하는 에러를 서비스 로직에서 처리 할 수 없다.
+
+public class CheckedAppTest {
+  static class Controller {
+    Service service = new Service();
+    public void request() {
+      
+    }
+  }
+
+  static class Service {
+  }
+
+  static class Repository {
+  
+  }
+
+   static class NetworkClient {
+  
+  }
+} 
+
+1. 복구 불가능한 예외
+2. 의존 관계에 대한 문제가 있음.
+  서비스 컨트롤러 에서 SQLexcepiton 을 의존함.
+  향후 리포지토리를 JDBC 기술이 아닌 다른 기술로 변경한다면. JPAException으로 변경 된다면, SQLException 부분을 전부 다 교체 해야함.
+ 
