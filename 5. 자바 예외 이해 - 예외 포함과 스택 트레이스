@@ -1,0 +1,25 @@
+void printException() {
+  Controller controller = new Controller();
+  try {
+    controller.request();
+  } catch(Exception e) {
+    log.info("ex", e);
+  }
+}
+
+static class Repository {
+  public void call() {
+    try {
+      runSQL();
+    } catch(SQLExcetpion e) {
+      throw new RuntimeSQLException(e);
+      // 예외를 전활 할때는 반드시 기존 예외를 포함 해야한다.
+      // DB에서 발생한 예외를 확인 할수 없어진다 ㅠㅠ
+    }
+  }
+} 
+static class RuntimeSQLException extends RuntimeException {
+  public RuntimeSQLException() {
+  }
+  public void  
+}
