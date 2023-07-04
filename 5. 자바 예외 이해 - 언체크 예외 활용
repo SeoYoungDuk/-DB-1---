@@ -1,0 +1,13 @@
+
+//언체크 예외로 감아서 던지면, 사용 하는 상위 메소드들에서 체크 예외 throws 삭제 가능
+static class Repository {
+  public void call() {
+    try {
+      runSQL();
+    } catch (SQLException e) {
+      throw RuntimeConnectionException(e); //기존 예외를 포함 해줘야 stack trace 에서 확인 가능
+    }
+  }
+}
+
+//더 이상 서비스, 컨트롤러에서 코드를 변경하지 않아도 좋다.
