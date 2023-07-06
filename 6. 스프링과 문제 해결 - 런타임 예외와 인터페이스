@@ -1,0 +1,37 @@
+
+public class MemberRepository {
+  Member save(Member member);
+  Memeber findById(String memberId);
+  
+} 
+public MyDbException extends RuntimeException {
+  public MyDbException(Throwable e){
+    super(message);
+  }
+
+}
+
+//예외 누수 문제 해결
+//체크 예외를 언체크 예외로 변경
+// MemberRepository 사용
+// throws SQLException 제거
+public class MemberRepositoryV4 implements MemberRepository {
+  public Member save(Memeber memeber) throws SQLException { // 쳬크예외제거!
+    try {
+    
+    } catch(SQLException e) {
+      throw new MyDbException(e);
+    } finally {
+    
+    }
+  }
+}
+
+public class MemberServiceV4 {
+  private final MemberRepsotry memberRepsotry;
+
+  @Transactional
+  public void accountTransfer() { // 쳬크예외제거!
+    bizLogic();
+  }
+}
