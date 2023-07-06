@@ -1,0 +1,18 @@
+SQLException 어떻게 제거할까?
+체크 예외를 RuntimeException 예외로 던지자!
+
+MemberRepository 를 만들면 되는거 아닌가?
+
+체크예외때문에 MemberRepository 에 SQLException 를 다 붙여 줘야함..
+
+public class MemberRepositoryEx { //JDBC 에 종속적인 인터페이스
+  Member save(Member member) throw SQLException;
+  Memeber findById(String memberId) throw Exception; // Exception으로 
+  
+} 
+
+public class MemberRepositoryV3 implements MemberRepositoryEx {
+  public Member save(Memeber memeber) throws SQLException { // 쳬크예외 선언해야함!
+  
+  }
+}
