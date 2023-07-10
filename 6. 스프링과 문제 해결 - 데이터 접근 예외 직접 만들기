@@ -1,0 +1,48 @@
+데이터를 db에 저장 할 때 같은 ID가 이미 데이터 베이스에 있을 때
+SQLException 내부에 들어있는 errorCode 사용하면 문제 확인하기 편함.
+데이터베이스 종류따라 errorCode가 다름.
+
+데이터베이스내부에서 던진 키 중복 오류를 서비스 계층으로 직접 던지면 서비스 계층의 순수성이 사라진다.
+=> 키 중복 예외를 정의한 exception으로 변환해서 던지면 됨.
+
+public MyDuplicateException extends MyDBException {
+
+}
+static Servce {
+  private Reposiotry repository;
+
+  public void create(String memeberId){
+    try {
+  
+    } catch(MyDuplicateKeyException e) {
+      log.info("키 중복 복구 시도");
+      String retryId = generatedNewId(memberId);
+      repository.save(new member(retryId, 0);
+    } catch(MyDbException e) {
+      log.info("데이터 접근 계층 예외", e);
+      throw e;
+    }
+  }
+}
+
+
+stattic Repository {
+  private final DataSource dataSource;
+
+  public Memeber save(Member member) {
+    String sql = "INSERT "
+    Connection con = null;
+    PreParedStatment pstmt = null;
+    try {
+      con = dataSource.getConnetion();
+      
+    } catch (SQLException e){
+      if(e.getErrorCode == 23505) {
+        throw MyDuplicateException(e);
+      }
+      throw new MyDbException(e);
+    } finally {
+      
+    }
+  }
+}
