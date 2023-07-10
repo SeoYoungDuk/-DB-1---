@@ -46,3 +46,5 @@ stattic Repository {
     }
   }
 }
+
+근데 db마다 errorCode가 다 다름. 그리고 errorCode의 종류가 너무 많음.
