@@ -1,0 +1,24 @@
+DataAccessException 
+Transient 재시도 했을때 성공할수 있는 예외들(락 오류라던가)
+NoTransient 일시적이지 않은 예외
+
+스프링이 제공하는 예외 변환기
+스프링은 데이터베이스에서 제공하는 오류를 자동으로 분석하여 예외를 변환해줌
+
+try {
+
+} catch(SQLException e) {
+  assertThat(e.getErrorCode()).isEqualTo(42122);
+}
+
+String sql "select bad grammer";
+try {
+
+} catch(SQLException e) {
+  assertThat(e.getErrorCode()).isEqualTo(42122);
+
+  //org.springframework.jdbc.supprot.SQLErrorCodes.sql-error.codes.xml -> db에 맞는 에러코드를 제공함.
+  SQLErrorCodeSQLExcptionTranslator exTranslator = new SQLErrorCodeSQLExceptionTranslator();
+  DatatAcessException resultEx = exTranslator.translate("select",sql, e);
+  assertThat(resultEx.getClass()).isEqualTo(BadSQLBadGrammarException);
+}
