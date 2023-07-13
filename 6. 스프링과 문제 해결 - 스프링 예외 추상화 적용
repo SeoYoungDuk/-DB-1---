@@ -1,0 +1,18 @@
+
+public class MemberRepository implements MemberRespository {
+  private final DataSource dataSource;
+  private final SQLExceptionTranlator exTranslator;
+
+  public void delete() {
+    String sql = "delete xxx from xxx";
+    try{
+      getConnection();
+    } catch(SQLException e){
+      throw new exTranslator.translate("delete", sql, e);
+    } finally {
+      close();
+    }
+  }
+}
+
+서비스 계층에서 예외를 잡아서 복구해야하는경우 스프링에서 제공하는 데이터 접근 예외로 변경되었기 때문에 서비스계층에서 잡아서 처리하면 된다.
