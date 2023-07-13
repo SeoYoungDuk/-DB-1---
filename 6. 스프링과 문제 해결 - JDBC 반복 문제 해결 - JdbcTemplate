@@ -1,0 +1,40 @@
+
+리포지토리 각각의 메서드의 많은 부분이 반복된다.
+템플릿 콜백 패턴 사용.
+JdbcTemplate 제공
+
+public class MemberRepository implements MemberRespository {
+  private final JdbcTemplate jdbctemplate;
+
+  public MemberRepository(DataSource dataSoucre){
+      this.jdbcTemeplate = new JdbcTemplate(dataSource);
+  }
+
+  public void delete() {
+    String sql = "delete xxx from xxx";
+    try{
+      jdbctemplate.delete(sql);
+    } catch(SQLException e){
+      throw new exTranslator.translate("delete", sql, e);
+    } finally {
+      close();
+    }
+  }
+
+  public Memeber findById(String memberId) {
+    String sql = "select * from member where member_id = ?";
+    temeplate.queryForObject(sql, memberRowMapper(), memberId);
+  }
+
+  public Memeber memeberRowMapper(){
+    return (rs, rowNum) -> {
+      Member member = new Member();
+      memeber.setId(rs.getString("member_id"));
+      memeber.setName(rs.getInt("money"));
+      return member;
+    }
+  } 
+}
+
+서비스 계층
+서비스 계층에서 예외를 잡아서 복구해야하는경우 스프링에서 제공하는 데이터 접근 예외로 변경되었기 때문에 서비스 계층에서 잡아서 처리하면 된다.
